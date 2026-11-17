@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brew & Bean | Menu Manager</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#"><span class="brand-mark">☕</span><span><strong>Brew & Bean</strong><small>COFFEE HOUSE · MENU MANAGER</small></span></a>
+    <div class="connection"><span class="dot" id="statusDot"></span><span id="connectionText">Checking database connection…</span></div>
+  </header>
+
+  <main class="container">
+    <section class="intro">
+      <div>
+        <p class="eyebrow">COFFEE HOUSE ADMINISTRATION</p>
+        <h1>Make every item count.</h1>
+        <p class="subtitle">Manage your coffee shop menu, prices and stock in one place.</p>
+      </div>
+      <button class="btn btn-primary" id="addButton">＋ Add menu item</button>
+    </section>
+
+    <section class="stats" aria-label="Menu summary">
+      <article class="stat-card"><span class="stat-icon">▤</span><div><p>Total menu items</p><strong id="totalItems">—</strong><small>Items in your menu</small></div></article>
+      <article class="stat-card"><span class="stat-icon">◉</span><div><p>Categories</p><strong id="totalCategories">—</strong><small>Unique menu categories</small></div></article>
+      <article class="stat-card"><span class="stat-icon">৳</span><div><p>Total stock</p><strong id="totalStock">—</strong><small>Units currently recorded</small></div></article>
+    </section>
+
+    <section class="menu-panel">
+      <div class="panel-heading">
+        <div><p class="eyebrow">YOUR CATALOGUE</p><h2>Menu collection</h2><p class="muted">Menu items are loaded directly from your MySQL database.</p></div>
+        <div class="filters">
+          <input id="searchInput" type="search" placeholder="Search menu items…" aria-label="Search menu items">
+          <select id="categoryFilter" aria-label="Filter by category"><option value="">All categories</option></select>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>MENU ITEM</th><th>CATEGORY</th><th>DESCRIPTION</th><th>PRICE</th><th>STOCK</th><th>STATUS</th><th>ACTIONS</th></tr></thead>
+          <tbody id="menuTable"><tr><td colspan="7" class="empty">Loading menu…</td></tr></tbody>
+        </table>
+      </div>
+      <p class="table-note" id="resultCount">Loading records…</p>
+    </section>
+    <footer>BREW & BEAN <span>·</span> JavaScript + Node.js + MySQL</footer>
+  </main>
+
+  <dialog id="itemDialog">
+    <form id="itemForm" class="dialog-form">
+      <div class="dialog-head"><div><p class="eyebrow">MENU MANAGEMENT</p><h2 id="dialogTitle">Add menu item</h2></div><button type="button" class="close-btn" id="closeDialog" aria-label="Close">×</button></div>
+      <input type="hidden" id="itemId">
+      <label>Item name<input id="name" maxlength="120" required placeholder="e.g. Caramel Macchiato"></label>
+      <div class="form-grid">
+        <label>Category<select id="category" required><option value="">Choose category</option><option>Coffee</option><option>Cold Coffee</option><option>Tea</option><option>Bakery</option><option>Snacks</option><option>Other</option></select></label>
+        <label>Price (৳)<input id="price" type="number" min="0" step="0.01" required placeholder="180"></label>
+      </div>
+      <label>Description<textarea id="description" rows="3" maxlength="500" placeholder="A short description of the item"></textarea></label>
+      <div class="form-grid">
+        <label>Stock quantity<input id="stock" type="number" min="0" step="1" required value="0"></label>
+        <label>Availability<select id="availability"><option>Available</option><option>Unavailable</option></select></label>
+      </div>
+      <p class="form-error" id="formError"></p>
+      <div class="dialog-actions"><button type="button" class="btn btn-light" id="cancelButton">Cancel</button><button type="submit" class="btn btn-primary" id="saveButton">Save item</button></div>
+    </form>
+  </dialog>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
